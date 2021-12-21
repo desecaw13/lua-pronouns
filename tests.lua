@@ -1,16 +1,20 @@
 local pn = require 'pronouns'
 
-local function pretty(i, pt) -- more like pretty bad
-	io.write(i..": ")
-	io.write("nom = '")
-	io.write(pt.nom)
-	io.write("', obl = '")
-	io.write(pt.obl)
-	io.write("', dpos = '")
-	io.write(pt.dpos)
-	io.write("', ipos = '")
-	io.write(pt.ipos)
-	io.write("'\n")
+local write = io.write
+local print = print
+local pairs = pairs
+
+local function pretty(i, pt)
+	print(i,"nom = '"..pt.nom.."', obl = '"..pt.obl.."', dpos = '"..pt.dpos.."', ipos = '"..pt.ipos.."'")
 end
 
 pretty(pn.createPronoun{nom='n', obl='o', dpos='dp', ipos='ip'})
+print()
+
+for k,v in pairs(pn) do
+	if type(v) == 'table' then
+		pretty(k, v)
+	else
+		print(k, v)
+	end
+end

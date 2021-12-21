@@ -6,10 +6,16 @@ This is a read-only table containing some default pronouns, an option for none, 
 
 array part has pronouns, and hash/key part has functions
 
+https://en.wikipedia.org/wiki/Grammatical_case#Modern_English
 subjective/nominative case, objective/oblique case, possessive/genitive case (determiner/dependent and independent forms)
 reflexive case = possessive form + 'self' or 'selves'
 
 ]=]
+
+local type = type
+local tostring = tostring
+local assert = assert
+local next = next
 
 local t = {
 	[0] = false, -- none. should this be false, or empty table, or nil? [start at 1? no it technically isn't a pronoun]
@@ -22,7 +28,11 @@ local Pronoun = {
 	isPlural='boolean'}
 ]]
 
--- todo: descript
+--[=[
+descript: [todo]
+params: kwargs;table = { nom;string, obl;string, dpos;string, ipos;string } or kwargs;string
+returns: an index;number of `t` and the value;table now stored there.
+]=]
 function t.createPronoun(kwargs)
 	if type(kwargs) ~= 'table' then return t:CreatePronoun({nom=tostring(kwargs)}) end
 	assert(next(kwargs), 'The table kwargs cannot be empty.')
@@ -40,9 +50,12 @@ function t.createPronoun(kwargs)
 	return index, pn
 end
 
--- todo: descript 
+--[=[
+descript: [todo]
+params: args;table = { 1;string, 2;string, 3;string, 4;string }
+returns: a new pronoun table.
+]=]
 function t.generateFromTable(args) --[remove `FromTable` ?]
-	--if type(args) ~= 'table' then return t:CreatePronoun({tostring(args)}) end
 	assert(next(args), 'The table args cannot be empty.')
 
 	local pn = {
@@ -54,8 +67,6 @@ function t.generateFromTable(args) --[remove `FromTable` ?]
 
 	return pn
 end
-
-assert(#t==0, 'what how')
 
 t[1] = t.generateFromTable{'it', 'it', 'its', 'its'} -- true neuter
 t[2] = t.generateFromTable{'they', 'them', 'their', 'theirs'} -- personal neuter and plural
